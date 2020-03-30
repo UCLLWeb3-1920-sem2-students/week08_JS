@@ -70,14 +70,24 @@
 
 </div>
 <script>
-    /**
-     * Every time an element has lost its focus, the method checkField is invoked
-     * The last argument is set to true, so all blur events are captured, not only the one
-     * we are listening to
-     */
-    document.addEventListener("blur", checkField, true);
+    window.addEventListener("load",initPage);
 
-    document.addEventListener("submit", finalValidation, false);
+    function initPage() {
+        /*
+         * voor alle input elementen die geen submit-knop zijn:
+         *      voeg click-event toe dat inputfield valideert
+         * voor submit-knop:
+         *      voeg click-event toe dat finale validatie uitvoert
+         */
+        for (let inputField of document.getElementsByTagName("input")) {
+            if (inputField.type != "submit")
+                inputField.addEventListener("blur",checkField);
+            else
+                inputField.addEventListener("click",finalValidation);
+        }
+
+    }
+
 
     function finalValidation(event) {
         let fields = event.target.elements;
